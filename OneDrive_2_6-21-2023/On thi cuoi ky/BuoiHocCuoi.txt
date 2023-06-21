@@ -1,0 +1,39 @@
+Kiến trúc phần mềm
+
+Đưa ra giải pháp 
+- Decentralized
++ lấy đáp án của sv giỏi toán + đặt điểm tin cậy cao ~> thử đáp án 
+Công việc nhỏ -> có nên huy động lực lượng tập thể không 
++ Mỗi người chỉ có số lần submit/request nhất định (free/cost) 
++ Mỗi task phải có chi phí nhất định (token/energy/reward) ~ peer to peer sharing 
++ Dư token ? -> Mở thị trường, cung cấp dịch vụ 
+
+- Đăng ký học phần 
++ Phiếu bé ngoan (token) được tăng theo kết quả + Preorder học phần 
++ Người không preorder sẽ phải chờ 
++ Thêm/bỏ khoá học đều tốn chi phí (không đầu cơ được) 
++ Tuỳ chuyên ngành, có môn học tiên quyết -> có discount
+
+*Hệ thống concensus
+
+- Những chủ đề thầy thích 
++ Class có khả năng lưu trữ và tìm kiếm theo key (có thể gắn thêm hàm ?) 
++ object có thể thêm thuộc tính hay hàm 
+- Kỹ thuật làm bài
++ Không biết - Không chắc - Không ổn định - Không dễ -> đẩy ra class và hàm riêng (delegate) 
++ Không tối ưu vấn đề chính xác, performance cao -> scale, có thể mở rộng và thay đổi
+——
+Thay vì làm -> kiểm tra người khác làm 
+
++ có thể sử dụng service bằng cơm 
+———
+Mẫu 1: có nhu cầu về obj -> lấy 1 obj làm việc -> Factory 
+Mẫu 2: Match key word -> semantic web (web 3.0) - viết class có đi kèm keyword, hoặc viết đoạn văn mô tả chức năng
+ - kiểm tra obj này có gần giống obj kia hay không 
+Mẫu 3: strategy/state -> linh hoạt
+Mẫu 4: observer
+Mẫu 5: adapter (ráp đồ chơi) 
+Decompose Task + Delegation 
+
+	1.Một câu hỏi liên quan đến AwS 
+	2.Nộp AWS trước 31/12 được 2.1đ

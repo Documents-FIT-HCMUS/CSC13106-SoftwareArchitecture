@@ -1,0 +1,153 @@
+Câu 1, 2:
+public abstract class MEntity{
+	public MEntity(){
+		this.ID = SHA3_512.Hash(Counter++);
+		
+		//Tự đăng ký
+		entities.Add(this.ID, this);
+	}
+	
+	public static MEntity FindByID(string ID, string strClassName){
+		if(entities.containsKey(ID)){
+			if(entities[ID].ClassName === strClassName){
+				return entities[ID];
+			}
+		}
+		return NULL;
+	}
+}
+
+Câu 3: 
+public class MType: MEntity{
+	//không tạo MType bên ngoài
+	protected MType(string name, List<string> attributeList){
+		super();
+		this.name = name;
+		this.attributeList = attributeList;
+	}
+	
+	static public string RegisterNewType(string AccountID, string name,
+	List<string> attributeList){
+		//Dùng MEntity.FindByID(AccountID, "MAccount") được không ta, className??
+		if(MEntity.entities.containsKey(AccountID)){
+			MAccount account = MEntity.entities[AccountID];
+			if(account.EnoughEnery(energyCreate)){
+				account.ConsumeEnergy(energyCreate);
+				return new MType(name, attributeList).ID;
+			}
+		}
+		
+		return "";
+	}
+}
+
+Câu 4, 5:
+public class MObject: MEntity{
+	//kh tạo MObject bên ngoài
+	protected MObject(string TypeID){
+		super();
+		MType type = MType.GetType(TypeID);
+		if(type){
+			forEach(string attribute in type.attributeList){
+				Attributes.Add(attribute, "");
+			}
+		}
+	}
+	
+	public string this[string strAttribueName]{
+		get{
+			if(Attributes.containsKey(strAttribueName)){
+				return Attributes[strAttribueName];
+			}
+			return "";
+		}
+		
+		set{
+			if(Attributes.containsKey(strAttribueName)){
+				if(Attributes[strAttribueName] != value){
+					Attributes[strAttribueName] = value;
+				}
+			}
+			else Attributes.Add(strAttribueName, value);
+		}
+	}
+}
+
+Câu 6:
+public abstract class MTransaction: MEntity{
+	public MObject InvokeTransaction(String AccountID, string[] input){
+		MAccount account = MAccount.GetAccount(AccountID);
+		if(account.EnoughEnery(MTransaction.energyCreate)){
+			account.ConsumeEnergy(MTransaction.energyCreate);
+			MObject result = Execute(AccountID, input);
+			return result;
+		}
+		return NULL;
+	}
+}
+
+Câu 7:
+3 - Lấy TypeID của kiểu dữ liệu DKHP
+4 - Lấy ID của một đối tượng SinhVien
+5 - Lấy ID của một đối tượng MonHoc
+6 - Lấy giá trị đầu vào ứng với giá trị thuộc tính sttLop của đối tượng DKHP sẽ được tạo (nếu đkhp thành công)
+7 - Lấy giá trị đầu vào ứng với giá trị thuộc tính HocKy của đối tượng DKHP sẽ được tạo
+8 - Lấy giá trị đầu vào ứng với giá trị thuộc tính NamHoc của đối tượng ĐKHP sẽ được tạo
+9 - Lấy đối tượng sinhvien thông qua SinhVienID
+10 - Nếu không tìm thấy đối tượng sinhvien thì trả về null (dkhp thất bại)
+11 - Lấy đối tượng monhoc thông qua MonHocID
+12 - Nếu không tìm thấy đối tượng monhoc thì trả về null (dkhp thất bại)
+13 - Lấy giá trị thuộc tính SiSoToiDa của đối tượng monhoc
+14 - Lấy giá trị thuộc tính SiSoHienTai của đối tượng monhoc
+15 - Kiểm tra nếu SiSoHienTai < SiSoToiDa thì được phép dkhp
+16 - Cập nhật giá trị thuộc tính SiSoHienTai của đối tượng monhoc tăng lên 1
+17 - Tạo một đối tượng có kiểu DKHP
+18 - Lấy đối tượng dkhp vừa mới được tạo thông qua ID của nó
+19 - Cập nhật giá trị thuộc tính MaSV của đối tượng dkhp bằng với MaSV của đối tượng sinhvien
+20 - Cập nhật giá trị thuộc tính MaMH của đối tượng dkhp bằng với MaMH của đối tượng monhoc
+21 - Cập nhật giá trị thuộc tính STTLop của đối tượng dkhp
+22 - Cập nhật giá trị thuộc tính HocKy của đối tượng dkhp
+23 - Trả về đối tượng dkhp (dkhp thành công)
+
+Câu 8:
+public class MObject: MEntity{
+	public string this[string strAttribueName]{
+		get{
+			if(Attributes.containsKey(strAttribueName)){
+				return Attributes[strAttribueName];
+			}
+			return "";
+		}
+		
+		set{
+			if(Attributes.containsKey(strAttribueName)){
+				if(Attributes[strAttribueName] != value){
+					Attributes[strAttribueName] = value;
+					DecentralizedAppEngine.UpdateObject(this.ID);
+				}
+			}
+			else{
+				Attributes.Add(strAttribueName, value);
+				DecentralizedAppEngine.UpdateObject(this.ID);
+			}
+		}
+	}
+}
+
+Câu 9:
+public class DecentralizedAppEngine{
+	public static void UpdateObject(String ObjectID){
+		forEach(MNode node in nodes){
+			node.SynchronizeObject(ObjectID);
+		}
+	}
+}
+
+Câu 10:
+a)
+Hàm thực hiện giao tác ở từng node trong hệ thống và lưu trữ các đối tượng
+result đó vào mảng candidates
+Sau khi tổng hợp kết quả từ tất cả các node trong hệ thống, gọi hàm
+FindMostReliableResult() để tìm ra kết quả đáng tin cậy nhất (nếu có)
+
+b) -.-
